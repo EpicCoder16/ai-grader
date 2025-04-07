@@ -3,4 +3,3 @@ uvicorn
 sentence-transformers
 docx
 pdfplumber
-shutil
