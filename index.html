@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Grader</title>
+</head>
+<body>
+    <h1>AI Grader</h1>
+    
+    <h2>Upload Answer Key</h2>
+    <form id="answerKeyForm" enctype="multipart/form-data">
+        <input type="file" id="answerKey" name="file" accept=".docx,.pdf" required />
+        <button type="submit">Upload Answer Key</button>
+    </form>
+
+    <h2>Upload Student Assignment</h2>
+    <form id="studentFileForm" enctype="multipart/form-data">
+        <input type="file" id="studentFile" name="file" accept=".docx,.pdf" required />
+        <button type="submit">Upload Student Assignment</button>
+    </form>
+
+    <p>Result: </p>
+    <div id="responseResult"></div>
+
+    <script>
+        // Upload Answer Key
+        document.getElementById("answerKeyForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append("file", document.getElementById("answerKey").files[0]);
+
+            document.getElementById("responseResult").innerHTML = `<p>Uploading answer key...</p>`;
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/upload_answer_key/", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                document.getElementById("responseResult").innerHTML = `
+                    <h3>Answer Key Uploaded</h3>
+                    <p>Filename: ${result.filename}</p>
+                    <p>Message: ${result.message}</p>
+                `;
+            } catch (err) {
+                console.error("Error uploading answer key:", err);
+                document.getElementById("responseResult").innerHTML = `<p style="color:red;">Failed to upload answer key. Check server or console.</p>`;
+            }
+        };
+
+        // Upload Student Assignment
+        document.getElementById("studentFileForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append("file", document.getElementById("studentFile").files[0]);
+
+            document.getElementById("responseResult").innerHTML = `<p>Uploading student assignment...</p>`;
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/upload/", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                document.getElementById("responseResult").innerHTML = `
+                    <h3>Student Assignment Comparison Result</h3>
+                    <p>Filename: ${result.filename}</p>
+                    <p><strong>Comparison Score:</strong> ${result.comparison_result.similarity_score}</p>
+                    <p><strong>Message:</strong> ${result.comparison_result.message}</p>
+                    <details>
+                        <summary>View Extracted Text</summary>
+                        <pre>${result.extracted_text}</pre>
+                    </details>
+                `;
+            } catch (err) {
+                console.error("Error uploading student file:", err);
+                document.getElementById("responseResult").innerHTML = `<p style="color:red;">Failed to upload student file. Check if the answer key is uploaded first and verify the server.</p>`;
+            }
+        };
+    </script>
+</body>
+</html>
