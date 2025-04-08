@@ -33,7 +33,7 @@
             document.getElementById("responseResult").innerHTML = `<p>Uploading answer key...</p>`;
 
             try {
-                const response = await fetch("http://127.0.0.1:8000/upload_answer_key/", {
+                const response = await fetch("https://ai-grader-0ktz.onrender.com/", {
                     method: "POST",
                     body: formData,
                 });
@@ -61,7 +61,7 @@
             document.getElementById("responseResult").innerHTML = `<p>Uploading student assignment...</p>`;
 
             try {
-                const response = await fetch("http://127.0.0.1:8000/upload/", {
+                const response = await fetch("https://ai-grader-0ktz.onrender.com/", {
                     method: "POST",
                     body: formData,
                 });
