@@ -9,10 +9,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+if not os.path.exists("uploads"):
+    os.makedirs("uploads")
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or specify the exact origins you want to allow
+    allow_origins=["https://epiccoder16.github.io"],  # Or specify the exact origins you want to allow
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
