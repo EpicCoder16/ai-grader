@@ -30,10 +30,10 @@
             const formData = new FormData();
             formData.append("file", document.getElementById("answerKey").files[0]);
 
-            document.getElementById("responseResult").innerHTML = `<p>Uploading answer key...</p>`;
+            document.getElementById("responseResult").innerHTML = <p>Uploading answer key...</p>;
 
             try {
-                const response = await fetch("https://ai-graderv3.onrender.com/upload_answer_key/", {
+                const response = await fetch("https://ai-grader-0ktz.onrender.com/upload_answer_key/", {
                     method: "POST",
                     body: formData,
                 });
@@ -41,14 +41,14 @@
                 const result = await response.json();
                 console.log(result);
 
-                document.getElementById("responseResult").innerHTML = `
+                document.getElementById("responseResult").innerHTML = 
                     <h3>Answer Key Uploaded</h3>
                     <p>Filename: ${result.filename}</p>
                     <p>Message: ${result.message}</p>
-                `;
+                ;
             } catch (err) {
                 console.error("Error uploading answer key:", err);
-                document.getElementById("responseResult").innerHTML = `<p style="color:red;">Failed to upload answer key. Check server or console.</p>`;
+                document.getElementById("responseResult").innerHTML = <p style="color:red;">Failed to upload answer key. Check server or console.</p>;
             }
         };
 
@@ -58,10 +58,10 @@
             const formData = new FormData();
             formData.append("file", document.getElementById("studentFile").files[0]);
 
-            document.getElementById("responseResult").innerHTML = `<p>Uploading student assignment...</p>`;
+            document.getElementById("responseResult").innerHTML = <p>Uploading student assignment...</p>;
 
             try {
-                const response = await fetch("https://ai-graderv3.onrender.com/upload/", {
+                const response = await fetch("https://ai-grader-0ktz.onrender.com/upload/", {
                     method: "POST",
                     body: formData,
                 });
@@ -69,7 +69,7 @@
                 const result = await response.json();
                 console.log(result);
 
-                document.getElementById("responseResult").innerHTML = `
+                document.getElementById("responseResult").innerHTML = 
                     <h3>Student Assignment Comparison Result</h3>
                     <p>Filename: ${result.filename}</p>
                     <p><strong>Comparison Score:</strong> ${result.comparison_result.similarity_score}</p>
@@ -78,12 +78,14 @@
                         <summary>View Extracted Text</summary>
                         <pre>${result.extracted_text}</pre>
                     </details>
-                `;
+                ;
             } catch (err) {
                 console.error("Error uploading student file:", err);
-                document.getElementById("responseResult").innerHTML = `<p style="color:red;">Failed to upload student file. Check if the answer key is uploaded first and verify the server.</p>`;
+                document.getElementById("responseResult").innerHTML = <p style="color:red;">Failed to upload student file. Check if the answer key is uploaded first and verify the server.</p>;
             }
         };
     </script>
 </body>
 </html>
+
+
